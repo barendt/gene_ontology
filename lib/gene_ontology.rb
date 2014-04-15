@@ -7,6 +7,12 @@ class GeneOntology
   attr_accessor :header
   attr_accessor :id_to_term
 
+  def find_term_by_id(term_id)
+    id_to_term.each do |term|
+      return term[1] if term[0].eql?(term_id)
+    end
+  end
+
   # returns self
   def from_file(filename)
     File.open(filename) do |io|
@@ -72,6 +78,7 @@ class GeneOntology
   # synonym, xref, consider and is_a are arrays.  level is how far down the
   # heirarchy the term is.  0 is the top level (molecular function, biological
   # process...)
+  # TODO: Move Term into its own file
   class Term
     include Enumerable
     attr_accessor *%w(id level alt_id intersection_of replaced_by created_by creation_date disjoint_from relationship name namespace def subset comment is_obsolete synonym xref consider is_a).map(&:to_sym)
